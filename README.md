@@ -1,1 +1,1 @@
-"# playing-with-fastify-and-mongo" 
+# playing-with-fastify-and-mongo
