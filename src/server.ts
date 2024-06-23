@@ -6,7 +6,6 @@ const fastify = Fastify({
   logger: true,
 }).withTypeProvider<TypeBoxTypeProvider>();
 
-// Declare a route
 fastify.route({
   method: 'GET',
   url: '/',
