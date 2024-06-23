@@ -1,22 +1,16 @@
 // Import the framework and instantiate it
 import Fastify from 'fastify';
 import { TypeBoxTypeProvider, Type } from '@fastify/type-provider-typebox';
+import path from 'path';
+import { fastifyAutoload } from '@fastify/autoload';
 
 const fastify = Fastify({
   logger: true,
 }).withTypeProvider<TypeBoxTypeProvider>();
 
-fastify.route({
-  method: 'GET',
-  url: '/',
-  schema: {
-    querystring: Type.Object({
-      name: Type.String(),
-    }),
-  },
-  handler: async (request) => {
-    return { hello: request.query.name };
-  },
+fastify.register(fastifyAutoload, {
+  dir: path.join(import.meta.dirname, 'routes'),
+  dirNameRoutePrefix: false,
 });
 
 // Run the server!
@@ -26,3 +20,12 @@ try {
   fastify.log.error(err);
   process.exit(1);
 }
+
+/*
+GET /questions
+
+POST /responses
+GET /responses?userId=
+
+
+ */

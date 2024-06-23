@@ -9,7 +9,10 @@
     "build": "npx tsc --watch",
     "start": "npx nodemon ./dist/server.js",
     "debug": "node --inspect-brk ./dist/server.js",
-    "seed": "node ./dist/db/seed.js"
+    "seed": "node ./dist/db/seed.js",
+    "gen-types": "npx pg-to-ts generate -o ./src/types/db.types.ts",
+    "migrate": "goose up && npm run gen-types",
+    "rollback": "goose reset"
   },
   "repository": {
     "type": "git",
@@ -27,11 +30,13 @@
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.14.5",
     "eslint": "^8.57.0",
+    "pg-to-ts": "^4.1.1",
     "prettier": "^3.3.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.13.1"
   },
   "dependencies": {
+    "@fastify/autoload": "^5.10.0",
     "@fastify/type-provider-typebox": "^4.0.0",
     "@sinclair/typebox": "^0.32.33",
     "fastify": "^4.28.0",

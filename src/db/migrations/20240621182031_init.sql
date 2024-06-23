@@ -7,13 +7,17 @@ CREATE TABLE "user" (
 
 CREATE TABLE question (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  text TEXT NOT NULL
+  text TEXT NOT NULL,
+  position INT NOT NULL,
+  multiple_responses BOOLEAN NOT NULL
+
 );
 
 CREATE TABLE option (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   question_id UUID NOT NULL REFERENCES question(id) ON DELETE CASCADE,
   text TEXT NOT NULL,
+  position INT NOT NULL,
   UNIQUE (id, question_id)
 );
 
