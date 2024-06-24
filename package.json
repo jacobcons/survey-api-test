@@ -37,7 +37,9 @@
   },
   "dependencies": {
     "@fastify/autoload": "^5.10.0",
+    "@fastify/swagger": "^8.14.0",
     "@fastify/type-provider-typebox": "^4.0.0",
+    "@scalar/fastify-api-reference": "^1.24.17",
     "@sinclair/typebox": "^0.32.33",
     "fastify": "^4.28.0",
     "knex": "^3.1.0",

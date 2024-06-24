@@ -14,6 +14,8 @@ export default (
     '/responses',
     {
       schema: {
+        tags: ['responses'],
+        description: 'create responses to all questions for logged-in user',
         body: Type.Object({
           responses: Type.Array(
             Type.Object({
@@ -99,12 +101,23 @@ export default (
         }
       });
 
-      return reply.code(201).send({ message: 'success' });
+      return reply.code(200).send({ message: 'success' });
     },
   );
 
-  app.get('/responses', async (request, reply) => {
-    const responses = await sql`
+  app.get(
+    '/responses',
+    {
+      schema: {
+        tags: ['responses'],
+        description: 'Get all responses for each user',
+        response: {
+          200: {},
+        },
+      },
+    },
+    async (request, reply) => {
+      const responses = await sql`
       WITH response_with_grouped_options AS (
         SELECT 
           r.user_id,
@@ -124,8 +137,9 @@ export default (
       FROM response_with_grouped_options AS ro
       GROUP BY ro.user_id
     `;
-    return responses;
-  });
+      return responses;
+    },
+  );
 
   done();
 };

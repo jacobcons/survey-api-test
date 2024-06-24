@@ -8,8 +8,16 @@ export default (
   opts: FastifyPluginOptions,
   done: any,
 ) => {
-  app.get('/questions', async (request, reply) => {
-    const questions = await sql<Question[]>`
+  app.get(
+    '/questions',
+    {
+      schema: {
+        tags: ['questions'],
+        description: 'get all questions and their corresponding options',
+      },
+    },
+    async (request, reply) => {
+      const questions = await sql<Question[]>`
       SELECT 
         q.id, 
         q.text,
@@ -26,8 +34,9 @@ export default (
       ORDER BY q.position
     `;
 
-    return questions;
-  });
+      return questions;
+    },
+  );
 
   done();
 };
