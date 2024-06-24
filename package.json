@@ -10,7 +10,7 @@
     "start": "npx nodemon ./dist/server.js",
     "debug": "node --inspect-brk ./dist/server.js",
     "seed": "node ./dist/db/seed.js",
-    "gen-types": "npx pg-to-ts generate -o ./src/types/db.types.ts",
+    "gen-types": "npx pg-to-ts generate -o ./src/types/db.types.ts -C",
     "migrate": "goose up && npm run gen-types",
     "rollback": "goose reset"
   },
@@ -40,6 +40,9 @@
     "@fastify/type-provider-typebox": "^4.0.0",
     "@sinclair/typebox": "^0.32.33",
     "fastify": "^4.28.0",
+    "knex": "^3.1.0",
+    "knex-stringcase": "^1.4.6",
+    "pino-pretty": "^11.2.1",
     "postgres": "^3.4.4"
   }
 }

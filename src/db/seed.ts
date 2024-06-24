@@ -14,29 +14,30 @@ await sql`
 `;
 
 const [question] = await sql<Question[]>`
-  INSERT INTO question(text, order, multiple_responses)
+  INSERT INTO question(text, position, multiple_responses)
   VALUES ('Favourite colour?', 1, false)
   RETURNING *
 `;
 await sql`
-  INSERT INTO option(${question.id}, text, order)
+  INSERT INTO option(question_id, text, position)
   VALUES 
-    ('Blue', 1),
-    ('Red', 2),
-    ('Yellow', 3)
+    (${question.id}, 'Blue', 1),
+    (${question.id}, 'Red', 2),
+    (${question.id}, 'Yellow', 3)
 `;
 
 const [question2] = await sql<Question[]>`
-  INSERT INTO question(text, order, multiple_responses)
+  INSERT INTO question(text, position, multiple_responses)
   VALUES ('Places visited', 2, true)
   RETURNING *
 `;
 await sql`
-  INSERT INTO option(${question2.id}, text, order)
+  INSERT INTO option(question_id, text, position)
   VALUES 
-    ('Paris', 1),
-    ('London', 2),
-    ('New York', 3)
+    (${question2.id}, 'Paris', 1),
+    (${question2.id}, 'London', 2),
+    (${question2.id}, 'New York', 3)
 `;
 
+console.log('asdf');
 process.exit(0);

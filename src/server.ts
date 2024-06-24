@@ -1,31 +1,38 @@
 // Import the framework and instantiate it
-import Fastify from 'fastify';
-import { TypeBoxTypeProvider, Type } from '@fastify/type-provider-typebox';
+import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import { Type, TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import path from 'path';
-import { fastifyAutoload } from '@fastify/autoload';
+import autoload from '@fastify/autoload';
+import questionsRoutes from './routes/questions.routes.js';
+import responsesRoutes from './routes/responses.routes.js';
 
-const fastify = Fastify({
-  logger: true,
+export const app = Fastify({
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+    },
+  },
 }).withTypeProvider<TypeBoxTypeProvider>();
 
-fastify.register(fastifyAutoload, {
-  dir: path.join(import.meta.dirname, 'routes'),
-  dirNameRoutePrefix: false,
+app.register(questionsRoutes);
+app.register(responsesRoutes);
+
+app.setErrorHandler((error, request, reply) => {
+  if (error.statusCode === 500) {
+    app.log.error(error);
+  }
+
+  if (error.statusCode === 500 && process.env.NODE_ENV! === 'production') {
+    return reply.status(500).send({ message: 'internal server error' });
+  } else {
+    return reply.send(error);
+  }
 });
 
 // Run the server!
 try {
-  await fastify.listen({ port: 3000 });
+  await app.listen({ port: 3000 });
 } catch (err) {
-  fastify.log.error(err);
+  app.log.error(err);
   process.exit(1);
 }
-
-/*
-GET /questions
-
-POST /responses
-GET /responses?userId=
-
-
- */

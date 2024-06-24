@@ -10,7 +10,6 @@ CREATE TABLE question (
   text TEXT NOT NULL,
   position INT NOT NULL,
   multiple_responses BOOLEAN NOT NULL
-
 );
 
 CREATE TABLE option (
